@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="height=device-height, initial-scale=1">
+    <title>URL Shortener</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
+
+</head>
+<body>
+    <h1>
+        Shorten your URL!
+    </h1>
+        <form method="post">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <button class="btn btn-primary" type="submit">
+                Create URL
+            </button>
+        </form>
+
+    {% if shorturl %}
+        <h2>Your new URL</h2>
+        <a class='shortlink' href="{{ shorturl }}">{{ shorturl }}</a><br>
+        <button class="btn-copy" data-clipboard-target=".shortlink">
+            Copy to clipboard
+        </button>
+    {% endif %}
+
+
+<script>
+    new ClipboardJS('.btn-copy');
+</script>
+</body>
+</html>

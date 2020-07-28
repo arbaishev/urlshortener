@@ -17,6 +17,10 @@ class URL(models.Model):
             self.url = "http://" + self.url
         super(URL, self).save(*args, **kwargs)
 
+    def clicked(self):
+        self.count += 1
+        self.save()
+
     def __str__(self):
         return str(self.url)
 

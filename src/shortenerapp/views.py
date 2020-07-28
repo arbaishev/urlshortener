@@ -8,8 +8,7 @@ from .models import URL
 class URLRedirect(View):
     def get(self, request, shortcode=None, *args, **kwargs):
         url = get_object_or_404(URL, shortcode=shortcode)
-        url.count += 1
-        url.save()
+        url.clicked()
         return redirect(f"{url.url}")
 
 

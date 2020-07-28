@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 
@@ -31,7 +32,18 @@ class HomeView(View):
 
         if form.is_valid():
             new_url = form.cleaned_data.get("url")
-            obj, created = URL.objects.get_or_create(url=new_url)
+
+            if not form.cleaned_data.get("custom_shortcode"):
+                obj, created = URL.objects.filter(url=new_url, custom=False).get_or_create(url=new_url)
+            else:
+                new_shortcode = form.cleaned_data.get("custom_shortcode")
+
+                if not URL.objects.filter(shortcode=new_shortcode).exists():
+                    obj, created = URL.objects.get_or_create(url=new_url, shortcode=new_shortcode, custom=True)
+                else:
+                    messages.error(request, "Shortcode already exists")
+                    return render(request, template, {"form": form})
+
             context["object"] = obj
             context["created"] = created
             context["shorturl"] = request.build_absolute_uri() + obj.shortcode

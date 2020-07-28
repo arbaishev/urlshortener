@@ -4,7 +4,7 @@ from .validators import validate_url
 
 
 class URLForm(forms.Form):
-    url = forms.CharField(label='',
+    url = forms.CharField(label="Long URL:",
                           validators=[validate_url],
                           widget=forms.TextInput(
                               attrs={
@@ -12,3 +12,4 @@ class URLForm(forms.Form):
                               }
                           )
                           )
+    custom_shortcode = forms.SlugField(label="Custom shortcode (optional):", required=False)

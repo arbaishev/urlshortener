@@ -5,7 +5,7 @@ import string
 SHORTCODE_SIZE = getattr(settings, "SHORTCODE_SIZE", 6)
 
 
-def code_generator(size=6, chars=string.ascii_lowercase + string.digits):
+def code_generator(size=6, chars=string.ascii_letters + string.digits):
     return ''.join(randchoice(chars) for _ in range(size))
 
 

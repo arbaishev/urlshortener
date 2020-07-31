@@ -12,4 +12,4 @@ class URLForm(forms.Form):
                               }
                           )
                           )
-    custom_shortcode = forms.SlugField(label="Custom shortcode (optional):", required=False)
+    custom_shortcode = forms.SlugField(label="Custom shortcode (optional):", max_length=6, required=False)

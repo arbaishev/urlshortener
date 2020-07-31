@@ -31,21 +31,23 @@ class HomeView(View):
         template = "shortenerapp/index.html"
 
         if form.is_valid():
-            new_url = form.cleaned_data.get("url")
+            input_url = form.cleaned_data.get("url")
+
+            if "http" not in input_url:
+                input_url = "http://" + input_url
 
             if not form.cleaned_data.get("custom_shortcode"):
-                obj, created = URL.objects.filter(url=new_url, custom=False).get_or_create(url=new_url)
+                obj, created = URL.objects.filter(url=input_url, custom=False).get_or_create(url=input_url)
             else:
                 new_shortcode = form.cleaned_data.get("custom_shortcode")
 
                 if not URL.objects.filter(shortcode=new_shortcode).exists():
-                    obj, created = URL.objects.get_or_create(url=new_url, shortcode=new_shortcode, custom=True)
+                    obj = URL.objects.create(url=input_url, shortcode=new_shortcode, custom=True)
                 else:
                     messages.error(request, "Shortcode already exists")
                     return render(request, template, {"form": form})
 
             context["object"] = obj
-            context["created"] = created
             context["shorturl"] = request.build_absolute_uri() + obj.shortcode
 
         return render(request, template, context)

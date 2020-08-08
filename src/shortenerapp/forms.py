@@ -4,12 +4,25 @@ from .validators import validate_url
 
 
 class URLForm(forms.Form):
-    url = forms.CharField(label="Long URL:",
-                          validators=[validate_url],
-                          widget=forms.TextInput(
-                              attrs={
-                                  "placeholder": "Long URL"
-                              }
-                          )
-                          )
-    custom_shortcode = forms.SlugField(label="Custom shortcode (optional):", max_length=6, required=False)
+    url = forms.CharField(
+        label="",
+        validators=[validate_url],
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Input long URL here",
+            }
+        )
+    )
+
+    custom_shortcode = forms.SlugField(
+        label="",
+        max_length=6,
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Custom alias (optional)",
+            }
+        )
+    )
+
+

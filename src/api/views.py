@@ -10,7 +10,7 @@ class URLListView(APIView):
     def get(self, request):
         qs = URL.objects.all()
         serializer = URLSerializer(qs, many=True)
-        return Response(serializer.data)
+        return Response({"data": {"objects": serializer.data}}, status=status.HTTP_200_OK)
 
 
 class URLShortener(APIView):
@@ -21,14 +21,27 @@ class URLShortener(APIView):
             if "http" not in input_url:
                 input_url = "http://" + input_url
             obj, created = URL.objects.filter(url=input_url, custom=False).get_or_create(url=input_url)
-            return Response(f"http://{request.get_host()}/{obj.shortcode}")
+            return Response({"data": {
+                "short_url": f"http://{request.get_host()}/{obj.shortcode}",
+                "shortcode": obj.shortcode},
+                "error": ""},
+                status=status.HTTP_200_OK
+            )
         else:
             input_shortcode = request.data.get("custom_shortcode")
             if not URL.objects.filter(shortcode=input_shortcode).exists():
                 obj = URL.objects.create(url=input_url, shortcode=input_shortcode, custom=True)
-                return Response(f"http://{request.get_host()}/{obj.shortcode}")
+                return Response({"data": {
+                    "short_url": f"http://{request.get_host()}/{obj.shortcode}",
+                    "shortcode": obj.shortcode},
+                    "error": ""},
+                    status=status.HTTP_200_OK
+                )
             else:
-                return Response("Shortcode already exists", status=status.HTTP_400_BAD_REQUEST)
+                return Response({"data": {},
+                                 "error": "Shortcode already exists"},
+                                status=status.HTTP_400_BAD_REQUEST
+                                )
 
 
 class URLStats(APIView):
@@ -44,7 +57,7 @@ class URLStats(APIView):
                 result["recently_used"] = "Never"
             else:
                 result["recently_used"] = url.updated.strftime('%d-%m-%Y %H:%M:%S')
-            return Response(result, status=status.HTTP_200_OK)
+            return Response({"data": result, "error": ""}, status=status.HTTP_200_OK)
 
         except URL.DoesNotExist:
-            return Response("Not found", status=status.HTTP_404_NOT_FOUND)
+            return Response({"data": {}, "error": "Not found"}, status=status.HTTP_404_NOT_FOUND)

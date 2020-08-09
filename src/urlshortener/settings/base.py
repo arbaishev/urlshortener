@@ -20,14 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-"""Secret key moved to production_settings for security reasons"""
+
 # SECRET_KEY = None
-
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
 # Application definition
 
@@ -62,7 +56,7 @@ SITE_URL = "http://localhost:8000"
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, '../templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,7 +74,6 @@ WSGI_APPLICATION = 'urlshortener.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-""" Database configs moved to production_settings for security reasons"""
 # DATABASES = None
 
 # Password validation
@@ -118,14 +111,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), os.path.join(BASE_DIR, 'shortenerapp/static'),)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, '../static'),
+                    os.path.join(BASE_DIR,'../shortenerapp/static'),)
+STATIC_ROOT = os.path.join(BASE_DIR, '../staticfiles')
 
 SHORTCODE_SIZE = 6
-
-# Private data (Secret key, DB password, etc.)
-
-try:
-    from urlshortener.production_settings import *
-except ModuleNotFoundError as err:
-    pass

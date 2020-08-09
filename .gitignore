@@ -15,4 +15,5 @@ logs/
 celerybeat-schedule                                                                     
 .ipynb_checkpoints
 env/
-production_settings.py
+src/urlshortener/settings/local.py
+staticfiles/

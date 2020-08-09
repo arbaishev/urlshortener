@@ -1,1 +1,1 @@
-web: gunicorn urlshortener.wsgi --log-file -
+web: gunicorn --chdir src src.urlshortener.wsgi --log-file -

@@ -29,6 +29,12 @@ class URLShortener(APIView):
             )
         else:
             input_shortcode = request.data.get("custom_shortcode")
+            if len(input_shortcode) > 6:
+                return Response({"data": {},
+                                 "error": "Shortcode too long"},
+                                status=status.HTTP_400_BAD_REQUEST
+                                )
+
             if not URL.objects.filter(shortcode=input_shortcode).exists():
                 obj = URL.objects.create(url=input_url, shortcode=input_shortcode, custom=True)
                 return Response({"data": {

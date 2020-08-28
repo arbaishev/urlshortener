@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -67,3 +68,8 @@ class URLStats(APIView):
 
         except URL.DoesNotExist:
             return Response({"data": {}, "error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view()
+def error404(request):
+    return Response({"data": {}, "error": "Not found"}, status=status.HTTP_404_NOT_FOUND)

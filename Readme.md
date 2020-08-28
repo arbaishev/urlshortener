@@ -42,10 +42,10 @@ ___
 `curl -X GET https://django-urlshortener.herokuapp.com/api/`
 
 - Create short URL without custom shortcode  
-`curl -X POST -H "Content-Type:application/json" -d '{"url":"example.com"}' http://127.0.0.1:8000/api/short/`
+`curl -X POST -H "Content-Type:application/json" -d '{"url":"example.com"}' https://django-urlshortener.herokuapp.com/api/short`
 
 - Create short URL with custom shortcode (maximum length: 6)  
-`curl -X POST -H "Content-Type:application/json" -d '{"url":"example.com", "custom":"True", "custom_shortcode":"<custom shortcode>"}' https://django-urlshortener.herokuapp.com/api/short/`
+`curl -X POST -H "Content-Type:application/json" -d '{"url":"example.com", "custom":"True", "custom_shortcode":"<custom shortcode>"}' https://django-urlshortener.herokuapp.com/api/short`
 
 - Get info on specific URL  
-`curl -X GET https://django-urlshortener.herokuapp.com/api/<custom shortcode>`
+`curl -X GET https://django-urlshortener.herokuapp.com/api/stats/<custom shortcode>`
